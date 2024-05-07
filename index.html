@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GPS LOCATION</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<style>
+  #map {
+    height: 400px;
+    width: 100%;
+  }
+  #coordinates {
+    margin-top: 10px;
+    font-size: 16px;
+  }
+</style>
+</head>
+<body>
+
+<h1 style="text-align:left">GPS Location</h1>
+<h2>Tugas Kuliah</h2>
+ <div class="biodata-item">
+   <p><strong>Nama MK:</strong> Kartografi Geospasi</p>
+  </div>
+ <div class="biodata-item">
+    <p><strong>Prodi:</strong> Sistem Informasi Kota Cerdas</p>
+  </div>
+ <div class="biodata-item">
+    <p><strong>Kampus:</strong> Politeknik Negri Banjarmasin</p>
+  </div>
+ <div class="biodata-item">
+    <p><strong>Dosen Pengampu:</strong> Agus SBN</p>
+  </div>
+ <div class="biodata-item">
+    <p><strong>Nama Anda:</strong> Ajeri Ahyan Nafi'a</p>
+  </div> 
+ <div class="biodata-item"> 
+    <p><strong>NIM:</strong> C050422001</p>
+  </div>
+ <div class="biodata-item"> 
+    <p><strong>Kelas:</strong> SIKC4A</p>
+  </div>
+ <div class="biodata-item"> 
+    <p><strong>Tanggal</strong> 23 April 2024</p>
+ </div>
+  
+
+
+
+<div id="coordinates">Latitude: <span id="lat"></span>, Longitude: <span id="lng"></span></div>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+// Fungsi untuk menginisialisasi peta
+function initMap() {
+  var map = L.map('map').setView([0, 0], 13); // Set default view
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+    maxZoom: 18,
+  }).addTo(map);
+
+  // Mendapatkan posisi saat ini menggunakan Layanan Lokasi HTML5
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var lat = position.coords.latitude;
+      var lng = position.coords.longitude;
+
+      // Menyesuaikan peta ke posisi pengguna saat ini
+      map.setView([lat, lng], 13);
+
+      // Menambahkan penanda pada posisi pengguna dengan deskripsi
+      L.marker([lat, lng]).addTo(map)
+        .bindPopup('Posisi Anda<br>Latitude: ' + lat + '<br>Longitude: ' + lng).openPopup();
+
+      // Memasukkan nilai koordinat ke elemen HTML
+      document.getElementById('lat').textContent = lat.toFixed(6);
+      document.getElementById('lng').textContent = lng.toFixed(6);
+    }, function() {
+      // Penanganan jika tidak dapat mengambil posisi
+      alert("Gagal mendapatkan posisi Anda.");
+    });
+  } else {
+    // Penanganan jika geolocation tidak didukung oleh browser
+    alert("Geolocation tidak didukung oleh browser ini.");
+  }
+}
+
+// Memanggil fungsi inisialisasi peta
+initMap();
+</script>
+
+</body>
+</html>
